@@ -25,6 +25,11 @@ async function runSpeedReader(): Promise<void> {
     ...(settings["speed-reader-settings"] || {}),
   };
 
+  await browser.scripting.insertCSS({
+    target: { tabId: tab.id },
+    files: ["/build/speed-reader.css"],
+  });
+
   await browser.scripting.executeScript({
     target: { tabId: tab.id },
     func: (settings: Settings) => {
