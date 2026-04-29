@@ -6,7 +6,7 @@ declare global {
   }
 }
 
-const browser = globalThis.browser || globalThis.chrome;
+const browser = (globalThis as any).browser || (globalThis as any).chrome;
 
 browser.runtime.onInstalled.addListener(() => {
   browser.contextMenus.create({
@@ -58,7 +58,7 @@ async function runSpeedReader(): Promise<void> {
 
 browser.action.onClicked.addListener(runSpeedReader);
 
-browser.contextMenus.onClicked.addListener((info) => {
+browser.contextMenus.onClicked.addListener((info: any) => {
   if (info.menuItemId == "speed-reader") {
     runSpeedReader();
   }

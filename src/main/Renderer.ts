@@ -2,7 +2,7 @@ import { Iterator } from './Iterator';
 import { Settings } from './Settings';
 import { remainingTime } from './words';
 import templateStr from 'bundle-text:./template.html';
-import styles from 'bundle-text:./styles.css';
+import * as styles from 'bundle-text:./styles.css';
 
 export class Renderer {
   private container!: HTMLDivElement;
@@ -21,10 +21,10 @@ export class Renderer {
     navigateWord: () => void): void {
     this.removeUI();
 
-    const style = document.createElement('style');
-    style.id = 'speed-reader-style';
-    style.textContent = styles;
-    document.head.append(style);
+    const styleEl = document.createElement('style');
+    styleEl.id = 'speed-reader-style';
+    styleEl.textContent = (styles as any).default;
+    document.head.append(styleEl);
 
     document.body.insertAdjacentHTML('beforeend', templateStr);
 
