@@ -2,7 +2,7 @@ import { Iterator } from './Iterator';
 import { Settings } from './Settings';
 import { remainingTime } from './words';
 import templateStr from 'bundle-text:./template.html';
-import './styles.css';
+import styles from 'bundle-text:./styles.css';
 
 export class Renderer {
   private container!: HTMLDivElement;
@@ -21,6 +21,11 @@ export class Renderer {
     navigateWord: () => void): void {
     this.removeUI();
 
+    const style = document.createElement('style');
+    style.id = 'speed-reader-style';
+    style.textContent = styles;
+    document.head.append(style);
+
     document.body.insertAdjacentHTML('beforeend', templateStr);
 
     this.container = document.querySelector('#speed-reader-container')!;
@@ -29,7 +34,7 @@ export class Renderer {
     this.container.style.setProperty('--text-color', settings.textColor);
     this.container.style.setProperty('--middle-letter-color', settings.middleLetterColor);
     this.container.style.setProperty('--font-family', settings.fontFamily);
-    this.container.style.setProperty('--font-size', `${settings.fontSize}px`);
+    this.container.style.setProperty('--font-size', settings.fontSize);
 
     const wrapper = this.container.querySelector('.speed-reader-wrapper') as HTMLElement;
     wrapper.style.width = settings.fullScreen ? '100%' : settings.width;
@@ -159,5 +164,6 @@ export class Renderer {
 
   private removeUI(): void {
     this.container?.remove();
+    document.getElementById('speed-reader-style')?.remove();
   }
 }
